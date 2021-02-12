@@ -28,6 +28,6 @@ As tested:
   - The program does not use latency to determine the nearest server but rather the IP address.  This can be misleading if the IP address's location is incorrect.  See [here](https://help.speedtest.net/hc/en-us/articles/360039164573-Why-does-Speedtest-show-the-wrong-location-).  Using latency to calculate the optimal server for the speed test is yet to be implemented.
   - Sometimes the chosen server is down.  In that case, delete the cached list of servers, and try again.  The list of servers seems to be refreshed often.  One can also change locations to connect to a different cellular tower.
   - The certificate files for enabling HTTPS access to speednet.net servers are located in the cert/ directory.
-  - The download_client_speedtest library is based on the [download_client](https://github.com/nrfconnect/sdk-nrf/tree/master/subsys/net/lib/download_client) library available with nRF Connect SDK. This version has been modified to accept multiple security certificates.
+  - The download_client_speedtest library is based on the [download_client](https://github.com/nrfconnect/sdk-nrf/tree/master/subsys/net/lib/download_client) library available with nRF Connect SDK. This version has been modified to accept multiple security tags.
   - The upload_client library is based on the download_client_speedtest library with no analogs in the nRF Connect SDK.  There are some dependencies between these two libraries that need to be decoupled in the future.
   
