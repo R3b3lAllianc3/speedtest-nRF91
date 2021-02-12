@@ -21,7 +21,8 @@ As tested:
  - Erase board and flash: 
   `nrfjprog -e && west flash`
  - Observe output on terminal:
- 
+
+    ![speedtest screenshot](https://github.com/r3b3lallianc3/speedtest-nRF91/blob/master/screenshot.png?raw=true)
  ## Tips / Info
   - The program connects to www.speedtest.net and downloads a list of servers that speedtest.net maintains.  Then the program parses this file to calculate the nearest server to connect to.  On subsequent runs, this list of servers is cached.  To have the program refresh the list of servers and not use the cached list from a previous run, press Button 1 upon boot and LED1 will light up to indicate that the program will refresh the list of servers.
   - The program does not use latency to determine the nearest server but rather the IP address.  This can be misleading if the IP address's location is incorrect.  See [here](https://help.speedtest.net/hc/en-us/articles/360039164573-Why-does-Speedtest-show-the-wrong-location-).  Using latency to calculate the optimal server for the speed test is yet to be implemented.
