@@ -912,16 +912,11 @@ void main(void)
 	strncpy(p, "http://", sizeof(server_fname));
 	p += strlen("http://");
 	
-	//temp
-	/*
 	err = url_parse_host(closest_server_data.url, p, sizeof(server_fname));
 	if (err < 0) {
 		printk("Invalid data for nearest server\n");
 		return;
 	}
-	*/
-	//temp
-	strcpy(p, "speedtest.ccvn.com");
 
 	p = server_fname;
 	p += strlen(server_fname);
@@ -963,17 +958,12 @@ void main(void)
 	strncpy(p, "http://", sizeof(server_fname));
 	p += strlen("http://");
 	
-	//temp
-	/*
 	err = url_parse_host(closest_server_data.url, p, sizeof(server_fname));
 	if (err < 0) {
 		printk("Invalid data for nearest server\n");
 		return;
 	}
-	*/
-	//temp
-	strcpy(p, "speedtest.ccvn.com");
-
+	
 	p = server_fname;
 	p += strlen(server_fname);
 	strcpy(p, "/speedtest/upload.php");
