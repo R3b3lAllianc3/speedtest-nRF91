@@ -29,10 +29,6 @@ int url_parse_host(const char *url, char *host, size_t len);
 int http_parse(struct download_client *client, size_t len);
 int http_get_request_send(struct download_client *client);
 
-int coap_block_init(struct download_client *client, size_t from);
-int coap_parse(struct download_client *client, size_t len);
-int coap_request_send(struct download_client *client);
-
 static const char *str_family(int family)
 {
 	switch (family) {
@@ -201,10 +197,9 @@ static int client_connect(struct download_client *dl, const char *host,
 	}
 
 	if (dl->proto == IPPROTO_UDP || dl->proto == IPPROTO_DTLS_1_2) {
-		if (!IS_ENABLED(CONFIG_COAP)) {
-			return -EPROTONOSUPPORT;
-		}
+		return -EPROTONOSUPPORT;
 	}
+	
 
 	if (dl->proto == IPPROTO_TLS_1_2 || dl->proto == IPPROTO_DTLS_1_2) {
 #ifdef USE_SEC_TAG_ARRAY
@@ -319,14 +314,13 @@ int socket_send(const struct download_client *client, size_t len)
 static int request_send(struct download_client *dl)
 {
 	switch (dl->proto) {
-	case IPPROTO_TCP:
-	case IPPROTO_TLS_1_2:
-		return http_get_request_send(dl);
-	case IPPROTO_UDP:
-	case IPPROTO_DTLS_1_2:
-		if (IS_ENABLED(CONFIG_COAP)) {
-			return coap_request_send(dl);
+		case IPPROTO_TCP:
+		case IPPROTO_TLS_1_2: {
+			return http_get_request_send(dl);
 		}
+		case IPPROTO_UDP:
+		case IPPROTO_DTLS_1_2:
+			break;
 	}
 
 	return 0;
@@ -459,9 +453,7 @@ restart_and_suspend:
 				/* Wait for more data (fragment/header) */
 				continue;
 			}
-		} else if (IS_ENABLED(CONFIG_COAP)) {
-			rc = coap_parse(client, len);
-		}
+		} 
 
 		if (rc < 0) {
 			/* Something was wrong with the packet
@@ -507,7 +499,7 @@ restart_and_suspend:
 
 send_again:
 		dl->offset = 0;
-		/* Request next fragment, if necessary (HTTPS/CoAP) */
+		/* Request next fragment, if necessary (HTTPS) */
 		if (dl->proto != IPPROTO_TCP || len == 0) {
 			dl->http.has_header = false;
 
@@ -649,10 +641,6 @@ int download_client_start(struct download_client *client, const char *file,
 
 	client->offset = 0;
 	client->http.has_header = false;
-
-	if (IS_ENABLED(CONFIG_COAP)) {
-		coap_block_init(client, from);
-	}
 
 	err = request_send(client);
 	if (err) {
