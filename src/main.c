@@ -91,22 +91,25 @@ static const struct device *initialize_led(void);
 static struct gpio_callback button_cb_data;
 
 static struct download_client downloader;
-/* security tags for HTTPS access to speedtest.net */
+/* security tags for HTTPS access to speedtest.net to download server list & configuration data. */
 static struct download_client_cfg config_security_dl = { .apn = 0,\
 											 .frag_size_override = 0, \
 											 .sec_tag_array_sz = 2 /* # of items in security tags index list */, \
 											 .sec_tag_array = {TLS_SEC_TAG_ROOT, TLS_SEC_TAG_INTERMEDIATE} /* Security tags index list */};
 
 static struct upload_client uploader;
+
+/* No HTTPS in upload test to speedtest.net */
 static struct upload_client_cfg config_no_security_ul = { .apn = 0, \
 											 .frag_size_override = 0, \
 											 .sec_tag_array_sz = 0 /* # of items in security tags index list */, \
-											 .sec_tag_array = {0, 0} /* No HTTPS in upload to speedtest.net */};
+											 .sec_tag_array = {0, 0} };
 
+/* No HTTPS in download test from speedtest.net */
 static struct download_client_cfg config_no_security_dl = { .apn = 0, \
 											 .frag_size_override = 0, \
 											 .sec_tag_array_sz = 0 /* # of items in security tags index list */, \
-											 .sec_tag_array = {0, 0} /* No HTTPS in upload to speedtest.net */};
+											 .sec_tag_array = {0, 0} };
 
 
 typedef struct client_data {
@@ -288,7 +291,6 @@ static void xml_parser_handler_config_file(xr_type_t type, const xr_str_t* name,
 
 static int process_downloaded_config_file(void)
 {
-	//int rc;
 	char *p, *lp;
 	char *endp;
 	int i;
