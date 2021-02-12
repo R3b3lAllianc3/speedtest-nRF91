@@ -14,9 +14,7 @@ As tested:
 
 
 ## Usage
-This program compiles within the source tree of the [nRF Connect SDK, tag v1.4.2](https://github.com/nrfconnect/sdk-nrf/tree/v1.4.2) but should work on subsequent releases as well.  
-
- - Check out/extract the code in <nRF_Connect_Installation_Folder>/nrf/samples/nrf9160/ folder.
+ - Check out/extract the code in any directory.
  - Compile with command: 
  `west build -b nrf9160dk_nrf9160ns -p`
  - Open terminal to the nRF9160 DK with settings 115200, 8, N, 1.
